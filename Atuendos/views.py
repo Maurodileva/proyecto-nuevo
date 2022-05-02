@@ -1,33 +1,54 @@
 from django.http import HttpResponse
 from django.shortcuts import render
+
+from .forms import CalzadoFormulario
 from .models import Calzado, Pantalon, Remera
 # Create your views here.
 
-def calzado(request,marca,talle):
+def calzado(request):
 
-    mi_calzado = Calzado(marca=marca, talle=talle)
+    return render(request,"Atuendos/calzado.html") 
 
-    mi_calzado.save()
+def remera(request):
 
+    return render(request,"Atuendos/remera.html") 
 
-    return HttpResponse (f'El calzado es de la marca {mi_calzado.marca} con el talle {mi_calzado.talle}')
+def pantalon(request):
 
-def remera(request,marca,talle,color):
-
-    mi_remera = Remera(marca=marca,talle=talle,color=color)
-    
-    mi_remera.save()
-
-    return HttpResponse(f'La remera es de la marca {mi_remera.marca}con el talle {mi_remera.talle} y del color {mi_remera.color}')
-
-def pantalon(request,marca,talle,tipo_de_tela):
-
-    mi_pantalon = Pantalon(marca=marca,talle=talle,tipo_de_tela=tipo_de_tela)
-    
-    mi_pantalon.save()
-    
-    return render(request,'C:/Users/mauro/Desktop/Proyecto nuevo/proyecto1/Atuendos/Templates/Atuendos/pantalon.html',{'marca':marca,'talle':talle,'tipo_de_tela':tipo_de_tela})
+    return render(request,"Atuendos/pantalon.html") 
 
 def inicio(request):
    
     return render(request,"Atuendos/inicio.html")    
+
+def calzadoFormulario(request):
+
+    if request.method == 'POST':
+
+        mi_formulario = CalzadoFormulario(request.POST)
+
+        if mi_formulario.is_valid():
+            
+            informacion = mi_formulario.cleaned_data
+
+            marca = informacion['marca']
+            talle = informacion['talle']
+
+            mi_calzado = Calzado(marca = marca, talle = talle)
+            mi_calzado.save()
+     
+        return render(request,"Atuendos/calzado.html")   
+    
+    else:
+        
+        mi_formulario = CalzadoFormulario()
+
+    return render(request,"Atuendos/calzadoFormulario.html", {'miForm': mi_formulario})     
+
+def busquedaCalzado(request):
+
+    return render(request,'Atuendos/busquedaCalzado.html') 
+
+def buscar(request):
+
+    return HttpResponse(f'Estoy buscando el calzado de la marca {request.GET["marca"]}')
