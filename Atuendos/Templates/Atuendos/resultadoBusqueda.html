@@ -7,12 +7,18 @@
     <title>Document</title>
 </head>
 <body>
+    
+    <h4>Estos son los calzados de la marca {{marca}}</h4>
 
-    <form action="/Atuendos/buscar/" method="GET">
+    <ul>
+    
+        {% for calzado in calzados %}
 
-        <input type="text" name="marca" id="marca">
-        
-        <input type="submit" value="Buscar">
-    </form>
+            <li>{{calzado}} </li>
+    
+        {% endfor %}
+    
+    </ul>
+
 </body>
 </html>

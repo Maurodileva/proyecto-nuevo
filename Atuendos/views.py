@@ -51,4 +51,13 @@ def busquedaCalzado(request):
 
 def buscar(request):
 
-    return HttpResponse(f'Estoy buscando el calzado de la marca {request.GET["marca"]}')
+    if request.GET("marca"):
+
+        marca = request.GET("marca")
+        calzados = Calzado.objects.filter(marca = marca)
+        
+        return render('Atuendos/resultadoBusqueda.html', {"marca":marca, "calzados":calzados})
+    
+    else:
+
+        return HttpResponse('No enviaste el nombre de la marca')

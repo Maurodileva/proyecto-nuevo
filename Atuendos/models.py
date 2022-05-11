@@ -7,7 +7,7 @@ class Calzado(models.Model):
     marca = models.CharField('marca',max_length = 50)
     talle = models.IntegerField('talle')
     def __str__(self) -> str:
-        return (self.marca)
+        return f'{self.marca} - {self.talle}'
 
 class Remera(models.Model):
 
